@@ -1,0 +1,251 @@
+
+    <head>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    </head>
+
+    <body>
+    <!-- Dashboard -->
+    <div class="dashboard-container" id="dashboardContainer">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="sidebar-brand">
+                    <div class="sidebar-brand-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+                <nav class="sidebar-nav">
+                    <div class="nav-item">
+                    <a href="#" class="nav-link active" data-section="dashboard">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    </div>
+                    <div class="nav-item">
+                    <a href="#" class="nav-link" id="btnCreateProject">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Crear Proyecto</span>
+                    </a>
+                    </div>
+                    <div class="nav-item">
+                    <a href="#" class="nav-link" data-section="approvals">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Aprobaciones</span>
+                    </a>
+                    </div>
+                </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Topbar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <button class="btn btn-outline-secondary d-md-none" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                <div> <h1 class="h2 mb-0">Gestión de Proyectos</h1>   
+                    <span class="text-muted fs-6" id="welcomeText">Panel principal</span>
+                </div>
+                   
+                </div>
+                <div class="topbar-right">
+                    <div class="user-menu" onclick="logout()">
+                        <div class="user-avatar" id="userAvatar">A</div>
+                        <div>
+                            <div class="fw-semibold" id="userName">Admin</div>
+                            <small class="text-muted" id="userEmail">admin@unaj.com</small>
+                        </div>
+                        <i class="fas fa-sign-out-alt text-muted"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Alerts Container -->
+                <div id="alertsContainer"></div>
+
+                <!-- Dashboard Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon primary">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <div class="stat-value" id="totalProjects">0</div>
+                        <div class="stat-label">Total Proyectos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon warning">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-value" id="pendingProjects">0</div>
+                        <div class="stat-label">Pendientes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon success">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-value" id="approvedProjects">0</div>
+                        <div class="stat-label">Aprobados</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon danger">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="stat-value" id="rejectedProjects">0</div>
+                        <div class="stat-label">Rechazados</div>
+                    </div>
+                </div>
+
+                <!-- Projects Section -->
+                <div class="projects-section">
+                    <div class="section-header">
+                        <div class="section-actions">
+                            <div class="search-box">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" class="search-input" placeholder="Buscar proyectos..." id="searchInput">
+                            </div>
+                            <select class="filter-select" id="statusFilter">
+                                <option value="">Todos los estados</option>
+                                <option value="pendiente">Pendiente</option>
+                                <option value="aprobado">Aprobado</option>
+                                <option value="rechazado">Rechazado</option>
+                            </select>
+                            <select class="filter-select" id="categoryFilter">
+                                <option value="">Todas las categorías</option>
+                                <option value="desarrollo">Desarrollo</option>
+                                <option value="investigacion">Investigación</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="operaciones">Operaciones</option>
+                            </select>
+                              <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-primary active" id="btnOwnProjects">Mis Proyectos</button>
+                        <button type="button" class="btn btn-outline-primary" id="btnToApproveProjects">Proyectos a Aprobar</button>
+                    </div>
+                            <button class="btn btn-success" onclick="openNewProjectModal()">
+                                <i class="fas fa-plus me-1"></i>
+                                Nuevo Proyecto
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="projects-grid" id="projectsGrid">
+                        <!-- Los proyectos se cargarán aquí dinámicamente -->
+                    </div>
+                    
+                    <div class="empty-state d-none" id="emptyState">
+                        <div class="empty-icon">
+                            <i class="fas fa-folder-open"></i>
+                        </div>
+                        <h4>No hay proyectos</h4>
+                        <p>No se encontraron proyectos que coincidan con los filtros seleccionados.</p>
+                        <button class="btn btn-success" onclick="openNewProjectModal()">
+                            <i class="fas fa-plus me-1"></i>
+                            Crear primer proyecto
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="projectDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalles del Proyecto</h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="projectDetailsBody">
+                <!-- contenido generado por JS -->
+            </div>
+            <div class="modal-footer">
+                <textarea class="form-control mb-2" placeholder="Comentario (opcional)" id="approvalComment"></textarea>
+                 <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-danger" onclick="rejectProject()">Rechazar</button>
+                <button class="btn btn-secondary" onclick="observeProject()">Observar</button>
+                <button class="btn btn-success" onclick="approveProject()">Aprobar</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
+        <!-- Modal para Nuevo/Editar Proyecto -->
+        <div class="modal fade" id="projectModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="projectModalTitle">
+                <i class="fas fa-plus me-2"></i>
+                Nuevo Proyecto
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="projectForm">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                    <label for="projectTitle" class="form-label">Nombre del proyecto *</label>
+                    <input type="text" class="form-control" id="projectTitle" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                    <label for="projectArea" class="form-label">Área *</label>
+                    <select class="form-select" id="projectArea" required>
+                        <option value="">Seleccionar área</option>
+                        <!-- Opciones cargadas dinámicamente -->
+                    </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                    <label for="projectType" class="form-label">Tipo de proyecto *</label>
+                    <select class="form-select" id="projectType" required>
+                        <option value="">Seleccionar tipo</option>
+                        <!-- Opciones cargadas dinámicamente -->
+                    </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                    <label for="projectDuration" class="form-label">Duración estimada (días) *</label>
+                    <input type="number" class="form-control" id="projectDuration" min="1" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                    <label for="projectBudget" class="form-label">Presupuesto estimado *</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="projectBudget" min="0" step="0.01" required>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="projectDescription" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="projectDescription" rows="4"></textarea>
+                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="saveProjectBtn">
+                <i class="fas fa-save me-1"></i>
+                Guardar
+                </button>
+            </div>
+            </div>
+        </div>
+        </div>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script type="module"src="../js/dashboard.js?v=1"></script>
+
+    </body> 

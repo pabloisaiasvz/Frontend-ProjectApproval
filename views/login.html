@@ -1,0 +1,44 @@
+  <head>
+    
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/login.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>Gestión de Proyectos</title>
+  </head>
+
+<body>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+</div>
+
+<div class="login-container d-flex align-items-center justify-content-center" id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">
+      <i class="fas fa-project-diagram"></i>
+    </div>
+    <h2 class="text-center mb-4">Admin Dashboard</h2>
+    <p class="text-center text-muted mb-4">Ingresa tu email para acceder al sistema</p>
+
+    <form id="loginForm">
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" required placeholder="admin@unaj.com">
+      </div>
+      <button type="submit" class="btn btn-primary w-100 mb-3">
+        <i class="fas fa-sign-in-alt me-2"></i>
+        Iniciar Sesión
+      </button>
+    </form>
+
+    <div class="text-center">
+      <small class="text-muted">Sistema de Gestión de Proyectos v1.0</small>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="/js/login.js?v=1"></script>
+</body> 
+
+
