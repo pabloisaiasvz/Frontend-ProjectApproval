@@ -2,6 +2,7 @@
     <head>
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/footer.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     </head>
@@ -32,12 +33,6 @@
                         <span>Crear Proyecto</span>
                     </a>
                     </div>
-                    <div class="nav-item">
-                    <a href="#" class="nav-link" data-section="approvals">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Aprobaciones</span>
-                    </a>
-                    </div>
                 </nav>
         </div>
 
@@ -49,7 +44,7 @@
                     <button class="btn btn-outline-secondary d-md-none" id="sidebarToggle">
                         <i class="fas fa-bars"></i>
                     </button>
-                <div> <h1 class="h2 mb-0">Gestión de Proyectos</h1>   
+                <div> <h1 class="h2 mb-1">Gestión de Proyectos</h1>   
                     <span class="text-muted fs-6" id="welcomeText">Panel principal</span>
                 </div>
                    
@@ -126,6 +121,7 @@
                             </select>
                               <div class="btn-group" role="group">
                         <button type="button" class="btn btn-outline-primary active" id="btnOwnProjects">Mis Proyectos</button>
+                        <button type="button" class="btn btn-outline-primary" id="btnApprovedHistory">Historial</button>
                         <button type="button" class="btn btn-outline-primary" id="btnToApproveProjects">Proyectos a Aprobar</button>
                     </div>
                             <button class="btn btn-success" onclick="openNewProjectModal()">
@@ -145,10 +141,6 @@
                         </div>
                         <h4>No hay proyectos</h4>
                         <p>No se encontraron proyectos que coincidan con los filtros seleccionados.</p>
-                        <button class="btn btn-success" onclick="openNewProjectModal()">
-                            <i class="fas fa-plus me-1"></i>
-                            Crear primer proyecto
-                        </button>
                     </div>
                 </div>
             </div>
@@ -168,7 +160,6 @@
             </div>
             <div class="modal-footer">
                 <textarea class="form-control mb-2" placeholder="Comentario (opcional)" id="approvalComment"></textarea>
-                 <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button class="btn btn-danger" onclick="rejectProject()">Rechazar</button>
                 <button class="btn btn-secondary" onclick="observeProject()">Observar</button>
                 <button class="btn btn-success" onclick="approveProject()">Aprobar</button>
@@ -247,5 +238,14 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script type="module"src="../js/dashboard.js?v=1"></script>
+
+    <footer class="footer">
+        <div class="container">
+            <span>© 2025 | Pablo Velázquez</span>
+            <nav class="footer-nav">
+            <a href="https://github.com/pabloisaiasvz" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </nav>
+        </div>
+    </footer
 
     </body> 

@@ -78,7 +78,6 @@
 }
 
 
-/* Main Content */
 .main-content {
     margin-left: 280px;
     min-height: 100vh;
@@ -172,9 +171,9 @@
 }
 
 .stat-icon.primary { background: #6366f1; color: white; }
-.stat-icon.success { background: #10b981; color: white; }
-.stat-icon.warning { background: #f59e0b; color: white; }
-.stat-icon.danger { background: #ef4444; color: white; }
+.stat-icon.success { background: #198754; color: white; }
+.stat-icon.warning { background: #ffc107; color: white; }
+.stat-icon.danger { background: #dc3545; color: white; }
 
 .stat-value {
     font-size: 2rem;

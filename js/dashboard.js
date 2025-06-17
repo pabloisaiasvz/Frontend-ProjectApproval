@@ -1,11 +1,11 @@
 import {
-  getProjects,
   getAreas,
   getProjectTypes,
   createProject,
   updateProject,
   sendProjectDecision,
-  getProjectsByUser
+  getProjectsByUser,
+  getProjectById
 } from './api.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -36,6 +36,19 @@ document.addEventListener('DOMContentLoaded', () => {
   if (welcomeText && currentUser && currentUser.name) {
     welcomeText.textContent = `Panel principal - Bienvenido ${currentUser.name}!`;
   }
+
+  const btnCreateProject = document.getElementById('btnCreateProject');
+
+  btnCreateProject.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const projectModal = new bootstrap.Modal(document.getElementById('projectModal'));
+    document.getElementById('projectModalTitle').textContent = 'Nuevo Proyecto';
+    document.getElementById('projectForm').reset();
+    projectModal.show();
+  });
+
+  
 
   const sidebarToggle = document.getElementById('sidebarToggle');
   const sidebar = document.getElementById('sidebar');
@@ -102,9 +115,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function categorizeProjects() {
     const userName = currentUser?.name;
+
     ownProjects = allProjects.filter(p => p.applicantUserName === userName);
-    approvalProjects = allProjects.filter(p => p.statusId === 1 && p.applicantUserName !== userName); // pendiente = 1
+
+  approvalProjects = allProjects
+    .filter(p => p.statusName === 'Pendiente' && p.applicantUserName !== userName)
+    .sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
   }
+
+  btnApprovedHistory.addEventListener('click', async () => {
+  btnOwnProjects.classList.remove('active');
+  btnToApproveProjects.classList.remove('active');
+  btnApprovedHistory.classList.add('active');
+
+  try {
+    const approvedProjects = await getProjects({ statusId: 2, approverUserId: userId });
+    renderProjects(approvedProjects);
+  } catch (e) {
+    console.error('Error cargando historial de aprobados:', e);
+  }
+});
+
 
   function renderProjects(projects) {
     const searchText = searchInput.value.toLowerCase();
@@ -132,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.innerHTML = `
           <h5>${p.title}</h5>
           <p>Solicitado por: ${p.applicantUserName ?? '-'}</p>
-          <small>Estado: ${getStatusName(p.statusId)}</small>
+          <small class="status-${getStatusName(p.statusId)}">Estado: ${getStatusName(p.statusId)}</small>
           <div>Creado el: ${new Date(p.createdAt).toLocaleDateString()}</div>
           <button class="btn btn-sm btn-outline-primary mt-2">Ver</button>
         `;
@@ -154,37 +185,67 @@ function updateStats() {
 }
 
 
-  function openProjectDetails(project) {
-    selectedProject = project;
+async function openProjectDetails(project) {
+  selectedProject = project;
+
+  const isApprovable = approvalProjects.includes(project);
+  document.querySelector('.modal-footer').style.display = isApprovable ? 'flex' : 'none';
+
+  try {
+    const detailed = await getProjectById(project.id);
+
+    let stepsText = '';
+    if (detailed.steps?.length > 0) {
+      const currentStep = detailed.steps.find(s => !s.decisionDate);
+      stepsText = currentStep
+        ? `<p><strong>Paso actual:</strong> ${currentStep.stepOrder} - ${currentStep.approverRole.name}</p>`
+        : '';
+    }
+
     projectDetailsBody.innerHTML = `
-      <p><strong>Nombre:</strong> ${project.title}</p>
-      <p><strong>Estado:</strong> ${getStatusName(project.statusId)}</p>
-      <p><strong>Solicitante:</strong> ${project.applicantUserName ?? '-'}</p>
+      <p><strong>ID:</strong> ${detailed.id}</p>
+      <p><strong>Nombre:</strong> ${detailed.title}</p>
+      <p><strong>Descripción:</strong> ${detailed.description || '-'}</p>
+      <p><strong>Estado:</strong> <span class="badge-status status-${detailed.status?.name}">${detailed.status?.name ?? '-'}</span></p>
+      <p><strong>Área:</strong> ${detailed.area?.name ?? '-'}</p>
+      <p><strong>Tipo:</strong> ${detailed.projectType?.name ?? '-'}</p>
+      <p><strong>Monto estimado:</strong> $${detailed.amount}</p>
+      <p><strong>Duración estimada:</strong> ${detailed.duration} días</p>
       <p><strong>Creado el:</strong> ${new Date(project.createdAt).toLocaleDateString()}</p>
+      ${stepsText}
     `;
-
-    const isApprovable = approvalProjects.includes(project);
-    document.querySelector('.modal-footer').style.display = isApprovable ? 'flex' : 'none';
-
-    approvalComment.value = '';
-    projectDetailsModal.show();
+  } catch (e) {
+    console.error('Error al obtener detalles del proyecto:', e);
+    projectDetailsBody.innerHTML = '<p>Error al cargar los detalles del proyecto.</p>';
   }
 
-  window.approveProject = async function () {
-    if (!selectedProject) return;
-    await sendProjectDecision(selectedProject.id, {
-      status: 'aprobado',
-      comment: approvalComment.value
-    });
-    await loadProjects();
-    projectDetailsModal.hide();
+  approvalComment.value = '';
+  projectDetailsModal.show();
+}
+
+window.approveProject = async function () {
+  if (!selectedProject) return;
+
+  const dataToSend = {
+    approverUserId: userId,
+    status: 2,
+    observation: approvalComment.value
   };
+
+  console.log("Enviando JSON:", JSON.stringify(dataToSend));
+
+  await sendProjectDecision(selectedProject.id, dataToSend);
+  await loadProjects();
+  projectDetailsModal.hide();
+};
+
 
   window.rejectProject = async function () {
     if (!selectedProject) return;
     await sendProjectDecision(selectedProject.id, {
-      status: 'rechazado',
-      comment: approvalComment.value
+      approverUserId: userId,
+      status: 3, 
+      observation: approvalComment.value
     });
     await loadProjects();
     projectDetailsModal.hide();
@@ -193,8 +254,9 @@ function updateStats() {
   window.observeProject = async function () {
     if (!selectedProject) return;
     await sendProjectDecision(selectedProject.id, {
-      status: 'observado',
-      comment: approvalComment.value
+      approverUserId: userId,
+      status: 4, 
+      observation: approvalComment.value
     });
     await loadProjects();
     projectDetailsModal.hide();
@@ -233,7 +295,7 @@ function updateStats() {
     const estimatedDuration = parseInt(document.getElementById('projectDuration').value);
     const user = JSON.parse(localStorage.getItem('currentUser'));
 
-    if (!title || !description || isNaN(areaId) || isNaN(typeId) || isNaN(estimatedAmount) || isNaN(estimatedDuration)) {
+    if (!title || isNaN(areaId) || isNaN(typeId) || isNaN(estimatedAmount) || isNaN(estimatedDuration)) {
       alert('Por favor, completá todos los campos correctamente.');
       return;
     }
