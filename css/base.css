@@ -172,23 +172,23 @@ body {
 }
 
 .status-pending {
-  background-color: #ffc107;
-  color: #000;
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning-color);
 }
 
 .status-approved {
-  background-color: #198754;
-  color: #fff;
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success-color);
 }
 
 .status-rejected {
-  background-color: #dc3545;
-  color: #fff;
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger-color);
 }
 
 .status-observed {
-  background-color: #0dcaf0;
-  color: #000;
+  background: rgba(13, 202, 240, 0.1);
+  color: #0dcaf0;
 }
 
 

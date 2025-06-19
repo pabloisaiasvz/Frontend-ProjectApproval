@@ -313,20 +313,6 @@
     text-transform: uppercase;
 }
 
-.status-pendiente {
-    background: rgba(245, 158, 11, 0.1);
-    color: var(--warning-color);
-}
-
-.status-aprobado {
-    background: rgba(16, 185, 129, 0.1);
-    color: var(--success-color);
-}
-
-.status-rechazado {
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--danger-color);
-}
 
 .project-description {
     color: var(--text-muted);

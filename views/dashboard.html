@@ -100,49 +100,54 @@
 
                 <!-- Projects Section -->
                 <div class="projects-section">
-                    <div class="section-header">
-                        <div class="section-actions">
-                            <div class="search-box">
-                                <i class="fas fa-search search-icon"></i>
-                                <input type="text" class="search-input" placeholder="Buscar proyectos..." id="searchInput">
-                            </div>
-                            <select class="filter-select" id="statusFilter">
-                                <option value="">Todos los estados</option>
-                                <option value="pendiente">Pendiente</option>
-                                <option value="aprobado">Aprobado</option>
-                                <option value="rechazado">Rechazado</option>
-                            </select>
-                            <select class="filter-select" id="categoryFilter">
-                                <option value="">Todas las categorías</option>
-                                <option value="desarrollo">Desarrollo</option>
-                                <option value="investigacion">Investigación</option>
-                                <option value="marketing">Marketing</option>
-                                <option value="operaciones">Operaciones</option>
-                            </select>
-                              <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-outline-primary active" id="btnOwnProjects">Mis Proyectos</button>
-                        <button type="button" class="btn btn-outline-primary" id="btnApprovedHistory">Historial</button>
-                        <button type="button" class="btn btn-outline-primary" id="btnToApproveProjects">Proyectos a Aprobar</button>
-                    </div>
-                            <button class="btn btn-success" onclick="openNewProjectModal()">
-                                <i class="fas fa-plus me-1"></i>
-                                Nuevo Proyecto
-                            </button>
-                        </div>
+                <div class="section-header">
+                    <div class="section-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="search-input" placeholder="Buscar proyectos..." id="searchInput">
                     </div>
 
-                    <div class="projects-grid" id="projectsGrid">
-                        <!-- Los proyectos se cargarán aquí dinámicamente -->
+                    <select class="filter-select" id="statusFilter">
+                        <option value="">Todos los estados</option>
+                        <option value="pendiente">Pendiente</option>
+                        <option value="aprobado">Aprobado</option>
+                        <option value="observado">Observado</option>
+                        <option value="rechazado">Rechazado</option>
+                    </select>
+
+                    <select class="filter-select" id="categoryFilter">
+                    <option value="">Todas las áreas</option>
+                    </select>
+
+                    <select class="filter-select" id="typeFilter">
+                    <option value="">Todos los tipos</option>
+                    </select>
+
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-primary active" id="btnOwnProjects">Mis Proyectos</button>
+                        <button type="button" class="btn btn-outline-primary" id="btnToApproveProjects">Proyectos a Aprobar</button>
                     </div>
-                    
-                    <div class="empty-state d-none" id="emptyState">
-                        <div class="empty-icon">
-                            <i class="fas fa-folder-open"></i>
-                        </div>
-                        <h4>No hay proyectos</h4>
-                        <p>No se encontraron proyectos que coincidan con los filtros seleccionados.</p>
+
+                    <button class="btn btn-success" onclick="openNewProjectModal()">
+                        <i class="fas fa-plus me-1"></i>
+                        Nuevo Proyecto
+                    </button>
                     </div>
                 </div>
+
+                <div class="projects-grid" id="projectsGrid">
+                    <!-- Los proyectos se cargarán aquí dinámicamente -->
+                </div>
+                
+                <div class="empty-state d-none" id="emptyState">
+                    <div class="empty-icon">
+                    <i class="fas fa-folder-open"></i>
+                    </div>
+                    <h4>No hay proyectos</h4>
+                    <p>No se encontraron proyectos que coincidan con los filtros seleccionados.</p>
+                </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -248,4 +253,4 @@
         </div>
     </footer
 
-    </body> 
+</body> 
