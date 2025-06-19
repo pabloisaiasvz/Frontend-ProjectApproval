@@ -23,7 +23,7 @@ export class UI {
     if (this.elements.userEmailEl) this.elements.userEmailEl.textContent = user.email;
     if (this.elements.userAvatarEl) this.elements.userAvatarEl.textContent = user.name.charAt(0).toUpperCase();
     if (this.elements.welcomeText) {
-      this.elements.welcomeText.textContent = `Panel principal - Bienvenido ${user.name}!`;
+      this.elements.welcomeText.textContent = `Bienvenid@ ${user.name}! - Panel principal / ${user.roleName}`;
     }
   }
 
